@@ -12,6 +12,7 @@ import { GoogleStrategy } from './strategies/google.strategy';
 import { FacebookStrategy } from './strategies/facebook.strategy';
 import { TwitterStrategy } from './strategies/twitter.strategy';
 import { GithubStrategy } from './strategies/github.strategy';
+import { MapperService } from '../../common/mappers/mappers.service';
 
 @Module({
   imports: [

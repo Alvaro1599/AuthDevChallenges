@@ -16,11 +16,10 @@ export class GithubStrategy extends PassportStrategy(Strategy, 'github') {
     profile: Profile,
     done: any,
   ): Promise<any> {
-    const { name, emails, photos } = profile;
-    const user = {
-      email: emails,
-      accessToken,
-    };
-    done(null, profile);
+    try {
+      done(null, profile);
+    } catch (error) {
+      console.log(error);
+    }
   }
 }

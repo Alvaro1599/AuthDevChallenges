@@ -1,3 +1,5 @@
+import { MapperService } from '../common/mappers/mappers.service';
+import { ResponseSocial } from './../services/auth/interface/response';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -6,11 +8,14 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import { BadRequestException } from '@nestjs/common/exceptions';
 import { HashAdapter } from '../common/hash/hash.adapter';
+export type social = 'google' | 'facebook' | 'github';
 @Injectable()
 export class UserService {
+  private enum: social;
   constructor(
     @InjectModel(User.name) private readonly UserModel: Model<User>,
     private readonly hashAdapter: HashAdapter,
+    private readonly mapperService: MapperService,
   ) {}
   async create(createUserDto: CreateUserDto) {
     try {
@@ -26,6 +31,12 @@ export class UserService {
       throw new BadRequestException(error);
     }
   }
+  async createSocialUser(createUserSocial: ResponseSocial, social: social) {
+    let user = this.mapperService.socialResponse(createUserSocial, social);
+    console.log(user);
+
+    return await this.UserModel.create(user);
+  }
   async findByEmail(email: string) {
     try {
       return await this.UserModel.findOne({ email });
@@ -33,6 +44,14 @@ export class UserService {
       throw new BadRequestException();
     }
   }
+  async findBySocial(id: string, social: social) {
+    try {
+      return await this.UserModel.findOne({ [social + 'ID']: id });
+    } catch (error) {
+      throw new BadRequestException();
+    }
+  }
+
   async findOne(id: number) {
     try {
       return await this.UserModel.findOne();

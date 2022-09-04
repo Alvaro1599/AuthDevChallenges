@@ -9,10 +9,16 @@ export class User extends Document {
   bio: string;
   @Prop()
   phone: number;
-  @Prop({ unique: true })
+  @Prop()
   email: string;
   @Prop()
   password: string;
+  @Prop()
+  googleID: string;
+  @Prop()
+  facebookID: string;
+  @Prop()
+  githubID: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

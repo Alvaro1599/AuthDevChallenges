@@ -13,7 +13,6 @@ export class AuthController {
   @UseGuards(LocalGuard)
   @Post('login')
   login(@Request() req): { access_token: string } {
-    console.log(req.user);
     return this.authService.login(req.user);
   }
   @UseGuards(JwtAuthGuard)
@@ -31,9 +30,7 @@ export class AuthController {
   @Get('redirect/google')
   @UseGuards(GoogleAuthGuard)
   async googleAuthRedirect(@Request() req) {
-    console.log(req.user);
-
-    return req.user;
+    return await this.authService.socialLogin(req.user, 'google');
   }
 
   @UseGuards(FacebookAuthGuard)
@@ -41,17 +38,8 @@ export class AuthController {
   facebookAuth() {}
   @UseGuards(FacebookAuthGuard)
   @Get('facebook/redirect')
-  facebookAuthRedirect(@Request() req) {
-    return req.user;
-  }
-
-  @UseGuards(TwitterAuthGuard)
-  @Get('twitter')
-  twitterAuth() {}
-  @UseGuards(TwitterAuthGuard)
-  @Get('twitter/redirect')
-  twitterAuthRedirect(@Request() req) {
-    return req.user;
+  async facebookAuthRedirect(@Request() req) {
+    return await this.authService.socialLogin(req.user, 'facebook');
   }
 
   @UseGuards(GithubAuthGuard)
@@ -59,7 +47,7 @@ export class AuthController {
   githubAuth() {}
   @UseGuards(GithubAuthGuard)
   @Get('github/redirect')
-  githubAuthRedirect(@Request() req) {
-    return req.user;
+  async githubAuthRedirect(@Request() req) {
+    return await this.authService.socialLogin(req.user, 'github');
   }
 }
