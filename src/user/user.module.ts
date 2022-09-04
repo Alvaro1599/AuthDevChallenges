@@ -10,7 +10,6 @@ import { CommonModule } from '../common/common.module';
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
     CommonModule,
   ],
-  controllers: [UserController],
   providers: [UserService],
   exports: [UserService],
 })

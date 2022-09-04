@@ -5,6 +5,7 @@ import { Profile as profileGoogle } from 'passport-google-oauth20';
 import { Profile as profileFacebook } from 'passport-facebook';
 import { Profile as profileGithub } from 'passport-github2';
 import { Types } from 'mongoose';
+import { LoginUserDto } from 'src/services/auth/dto/loginUser';
 
 @Injectable()
 export class MapperService {

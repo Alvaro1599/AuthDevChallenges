@@ -8,6 +8,7 @@ import { JwtService } from '@nestjs/jwt';
 import { User } from 'src/user/entities/user.entity';
 import { Types } from 'mongoose';
 import { ResponseSocial } from './interface/response';
+import { LoginUserDto } from './dto/loginUser';
 @Injectable()
 export class AuthService {
   constructor(
@@ -36,6 +37,29 @@ export class AuthService {
 
     return {
       access_token: this.jwtService.sign(payload),
+    };
+  }
+  async register(user: LoginUserDto) {
+    const mailExists = await this.userService.findByEmail(user.email);
+    if (mailExists) {
+      throw new HttpException('Mail already exists', HttpStatus.CONFLICT);
+    }
+
+    let currentUser = await this.userService.create({
+      ...user,
+      password: await this.hashAdapter.hash(user.password),
+    });
+    let response = {
+      email: currentUser.email,
+      id: currentUser.id,
+      bio: currentUser.bio,
+      phone: currentUser.phone,
+    };
+    return {
+      access_token: this.jwtService.sign(
+        this.mapperService.jwtPayload(currentUser),
+      ),
+      user: response,
     };
   }
 
