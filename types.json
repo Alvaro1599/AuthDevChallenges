@@ -1,0 +1,15 @@
+{
+  "id": "1255000301916531",
+  "username": undefined,
+  "displayName": "Alvaro Canales Aguilar",
+  "name": {
+    "familyName": undefined,
+    "givenName": undefined,
+    "middleName": undefined
+  },
+  "gender": undefined,
+  "profileUrl": undefined,
+  "provider": "facebook",
+  "_raw": "{\"name\":\"Alvaro Canales Aguilar\",\"id\":\"1255000301916531\"}",
+  "_json": { "name": "Alvaro Canales Aguilar", "id": "1255000301916531" }
+}
